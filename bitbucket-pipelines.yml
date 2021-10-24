@@ -1,0 +1,29 @@
+image:
+  name: tegarraharditya/koligrum-browser:3.0
+
+pipelines:
+  default:
+    - step: 
+        name: "Unit Testing"
+        script: 
+          - echo "Running Unit Testing Here"
+    - step:
+        name: "Static Analysis"
+        script:
+          - echo "Running Static Analysis Test Here" 
+    - step:
+        name: "Deploy Web Application"
+        script:
+          - echo "Deploy Web Application Succeeded"           
+    - step:
+        name: "Smoke Suite Testing"
+        script: 
+          - npm -v && node -v
+          - Xvfb :99 &
+          - export DISPLAY=:99
+          - pwd && ls -al
+          - npm ci
+          - npm test
+          # - npm run test-failed
+        artifacts: # defining the artifacts to be passed to each future step.
+          - allure-results/**
